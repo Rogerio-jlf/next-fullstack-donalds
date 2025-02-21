@@ -30,7 +30,7 @@ model Restaurant {
 model MenuCategory {
   id        String   @id @default(uuid())
   name      String
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id]) // Foreign key to table Restaurant 
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade) // Foreign key to table Restaurant 
   restaurantId String
   products Product[] // Relation to table Product
   createdAt DateTime @default(now())
@@ -45,9 +45,9 @@ model Product {
   imageUrl  String
   ingredients String[]
   orderProducts OrderProduct[] // Relation to table OrderProduct
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id]) // Foreign key to table Restaurant
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade) // Foreign key to table Restaurant
   restaurantId String
-  menuCategory MenuCategory @relation(fields: [menuCategoryId], references: [id]) // Foreign key to table MenuCategory
+  menuCategory MenuCategory @relation(fields: [menuCategoryId], references: [id], onDelete: Cascade) // Foreign key to table MenuCategory
   menuCategoryId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -58,7 +58,7 @@ model Order {
   total     Float
   status   OrderStatus
   consumptionMethod ConsumptionMethod
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id]) // Foreign key to table Restaurant
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade) // Foreign key to table Restaurant
   restaurantId String
   orderProducts OrderProduct[] // Relation to table OrderProduct
   createdAt DateTime @default(now())
@@ -67,9 +67,9 @@ model Order {
 
 model OrderProduct {
   id       String   @id @default(uuid())
-  product Product @relation(fields: [productId], references: [id]) // Foreign key to table Product
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade) // Foreign key to table Product
   productId String
-  order Order @relation(fields: [orderId], references: [id]) // Foreign key to table Order
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade) // Foreign key to table Order
   orderId Int
   quantity Int
   price Float
