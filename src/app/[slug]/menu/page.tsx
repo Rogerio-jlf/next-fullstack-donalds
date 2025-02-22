@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { dbPrisma } from "@/lib/prisma";
 
+import RestaurantCategories from "./components/categories";
 import RestaurantHeader from "./components/header";
 
 interface MenuPageProps {
@@ -20,6 +21,13 @@ const MenuPage = async ({ params, searchParams }: MenuPageProps) => {
     where: {
       slug,
     },
+    include: {
+      menuCategory: {
+        include: {
+          products: true,
+        },
+      },
+    },
   });
 
   if (!isConsumptionMethodValid(consumptionMethod) || !restaurant) {
@@ -30,6 +38,7 @@ const MenuPage = async ({ params, searchParams }: MenuPageProps) => {
     <>
       <div>
         <RestaurantHeader restaurant={restaurant} />
+        <RestaurantCategories restaurant={restaurant} />
       </div>
     </>
   );
