@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { dbPrisma } from "@/lib/prisma";
 
+import ProductDetails from "./components/product-details";
 import ProductHeader from "./components/product-header";
 
 interface ProductPageProps {
@@ -13,21 +14,32 @@ const ProductPage = async ({params}: ProductPageProps) => {
   const product = await dbPrisma.product.findUnique({
     where:{
       id: productId
+    },
+    include:{
+      restaurant:{
+        select:{
+          name: true,
+          avatarImageUrl: true,
+          slug: true
+        }
+      }
     }
   })
 
   if(!product) {
     return notFound();
   }
+
+  if(product.restaurant.slug.toLocaleUpperCase() !== slug.toLocaleUpperCase()) {
+    return notFound();
+  }
   
   return (
     <>
-    <ProductHeader product={product} />
-    <h1>
-      Product Page
-    </h1>
-      {slug}
-      {productId}
+    <div className="flex flex-col h-full">
+      <ProductHeader product={product} />
+      <ProductDetails product={product} />
+    </div>
     </>
   );
 }
