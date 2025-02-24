@@ -29,7 +29,7 @@ interface ProductDetailsProps {
 
 const ProductDetails = ({product}: ProductDetailsProps) => {
   const [quantity, setQuantity] = useState<number>(1);
-  const {toggleCart} = useContext(CartContext);
+  const {toggleCart, addProduct} = useContext(CartContext);
 
   const handleDecreaseQuantity = () => {
     if(quantity > 1) {
@@ -41,9 +41,15 @@ const ProductDetails = ({product}: ProductDetailsProps) => {
     setQuantity(quantity + 1);
   }
 
-  const handleAddToggleCart = () => {
+  const handleAddToCart = () => {
+    addProduct({
+      ...product,
+      quantity,
+    });
     toggleCart();
   }
+
+
 
   return (
     <>
@@ -128,7 +134,7 @@ const ProductDetails = ({product}: ProductDetailsProps) => {
 
         {/* BOTÃO DE ADICIONAR A SACOLA */}
         <Button
-          onClick={handleAddToggleCart}
+          onClick={handleAddToCart}
           className="w-full mt-6 rounded-full"
           >
           Adicionar à sacola
