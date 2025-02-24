@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatCurrency } from "@/helpers/format-currency";
 
 interface ProductDetailsProps {
@@ -37,8 +38,8 @@ const ProductDetails = ({product}: ProductDetailsProps) => {
 
   return (
     <>
-    <div className="relative z-50 mt-[-1.5rem] rounded-t-3xl p-5 flex-auto flex flex-col">
-        <div className="flex-auto">
+    <div className="relative z-50 mt-[-1.5rem] rounded-t-3xl p-5 flex-auto flex flex-col overflow-hidden">
+        <div className="flex-auto overflow-hidden">
             {/* RESTAURANTE */}
           <div className="flex items-center gap-1.5">
             <Image
@@ -58,7 +59,7 @@ const ProductDetails = ({product}: ProductDetailsProps) => {
           </h2>
 
           {/* PREÇO, BOTÕES, QUANTIDADE */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mt-3">
             <h3 className="text-xl font-semibold">
               {formatCurrency(product.price)}
             </h3>
@@ -84,7 +85,8 @@ const ProductDetails = ({product}: ProductDetailsProps) => {
             </div>
           </div>
 
-          {/* SOBRE */}
+          <ScrollArea className="h-full">
+                      {/* SOBRE */}
           <div className="mt-6 space-y-3">
             <h4 className="font-semibold">
               Sobre
@@ -102,10 +104,17 @@ const ProductDetails = ({product}: ProductDetailsProps) => {
                 Ingredientes
               </h4>
             </div>
-            <p className="text-sm text-muted-foreground">
-              {product.description}
-            </p>
+            <ul className="list-disc list-inside px-1">
+              {product.ingredients.map((ingredient, index) => (
+                <li key={index} className="text-sm text-muted-foreground">
+                  {ingredient}
+                </li>
+              ))}
+            </ul>{" "}
           </div>
+
+          </ScrollArea>
+
         </div>
 
         {/* BOTÃO DE ADICIONAR A SACOLA */}
