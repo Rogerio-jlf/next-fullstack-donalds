@@ -16,6 +16,7 @@ export interface ICardContext {
   increaseProductQuantity: (productId: string) => void
   removeProduct: (productId: string) => void
   total: number
+  totalQuantity: number
 }
 
 export const CartContext = createContext<ICardContext>({
@@ -26,7 +27,8 @@ export const CartContext = createContext<ICardContext>({
   decreaseProductQuantity: () => {},
   increaseProductQuantity: () => {},
   removeProduct: () => {},
-  total: 0
+  total: 0,
+  totalQuantity: 0
 });
 
 export const CartProvider = ({children}: {children: ReactNode}) => {
@@ -37,6 +39,10 @@ export const CartProvider = ({children}: {children: ReactNode}) => {
 
   const total = products.reduce((acc, product) => {
     return acc + product.price * product.quantity;
+  }, 0)
+
+  const totalQuantity = products.reduce((acc, product) => {
+    return acc + product.quantity;
   }, 0)
 
   const addProduct = (product: CartProduct) => {
@@ -100,7 +106,8 @@ export const CartProvider = ({children}: {children: ReactNode}) => {
         decreaseProductQuantity,
         increaseProductQuantity,
         removeProduct,
-        total
+        total,
+        totalQuantity
       }}
     >
       {children}

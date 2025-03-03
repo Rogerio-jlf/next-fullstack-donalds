@@ -22,6 +22,9 @@ const Orders = async ({searchParams}: OrdersPageProps ) => {
   }
 
   const orders = await dbPrisma.order.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
     where: {
       customerCPF: removeCPFPunctuation(cpf)
     },
