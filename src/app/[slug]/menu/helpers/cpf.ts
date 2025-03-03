@@ -2,26 +2,25 @@ export const removeCPFPunctuation = (cpf: string) => {
   return cpf.replace(/[\.\-]/g, "");
 };
 
-export const isValideCPF = (cpf: string): boolean => {
+export const isValidCPF = (cpf: string): boolean => {
   // Remove caracteres não numéricos
   cpf = cpf.replace(/\D/g, "");
 
-  // Valida se o CPF tem 11 digitos
+  // Verifica se o CPF tem 11 dígitos
   if (cpf.length !== 11) {
     return false;
   }
 
-  // Valida se todos os digitos são iguais
+  // Elimina CPFs com todos os dígitos iguais (ex: 000.000.000-00)
   if (/^(\d)\1+$/.test(cpf)) {
     return false;
   }
 
-  // Valida 1º digito
+  // Cálculo do primeiro dígito verificador
   let sum = 0;
   for (let i = 0; i < 9; i++) {
     sum += parseInt(cpf.charAt(i)) * (10 - i);
   }
-
   let firstVerifier = (sum * 10) % 11;
   firstVerifier = firstVerifier === 10 ? 0 : firstVerifier;
 
@@ -29,12 +28,11 @@ export const isValideCPF = (cpf: string): boolean => {
     return false;
   }
 
-  // Valida 2º digito
+  // Cálculo do segundo dígito verificador
   sum = 0;
   for (let i = 0; i < 10; i++) {
     sum += parseInt(cpf.charAt(i)) * (11 - i);
   }
-
   let secondVerifier = (sum * 10) % 11;
   secondVerifier = secondVerifier === 10 ? 0 : secondVerifier;
 

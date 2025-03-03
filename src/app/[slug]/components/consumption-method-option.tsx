@@ -6,19 +6,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface ConsumptionMethodOptionProps {
+  slug: string;
   imageUrl: string;
   imageAlt: string;
   buttonText: string;
   option: ConsumptionMethod;
-  slug: string;
 }
 
 const ConsumptionMethodOption = ({
+  slug,
   imageAlt,
   imageUrl,
   buttonText,
   option,
-  slug,
 }: ConsumptionMethodOptionProps) => {
   return (
     <Card>

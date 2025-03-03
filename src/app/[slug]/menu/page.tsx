@@ -5,7 +5,7 @@ import { dbPrisma } from "@/lib/prisma";
 import RestaurantCategories from "./components/categories";
 import RestaurantHeader from "./components/header";
 
-interface MenuPageProps {
+interface RestaurantMenuPageProps {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ consumptionMethod: string }>;
 }
@@ -14,34 +14,34 @@ const isConsumptionMethodValid = (consumptionMethod: string) => {
   return ["DINE_IN", "TAKEAWAY"].includes(consumptionMethod.toUpperCase());
 };
 
-const MenuPage = async ({ params, searchParams }: MenuPageProps) => {
+const RestaurantMenuPage = async ({
+  params,
+  searchParams,
+}: RestaurantMenuPageProps) => {
   const { slug } = await params;
   const { consumptionMethod } = await searchParams;
+  if (!isConsumptionMethodValid(consumptionMethod)) {
+    return notFound();
+  }
   const restaurant = await dbPrisma.restaurant.findUnique({
-    where: {
-      slug,
-    },
+    where: { slug },
     include: {
       menuCategory: {
-        include: {
-          products: true,
-        },
+        include: { products: true },
       },
     },
   });
-
-  if (!isConsumptionMethodValid(consumptionMethod) || !restaurant) {
+  if (!restaurant) {
     return notFound();
   }
-
   return (
-    <>
-      <div>
-        <RestaurantHeader restaurant={restaurant} />
-        <RestaurantCategories restaurant={restaurant} />
-      </div>
-    </>
+    <div>
+      <RestaurantHeader restaurant={restaurant} />
+      <RestaurantCategories restaurant={restaurant} />
+    </div>
   );
 };
 
-export default MenuPage;
+export default RestaurantMenuPage;
+
+// http://localhost:3000/fsw-donalds/menu?consumptionMethod=dine_in

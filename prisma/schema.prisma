@@ -76,6 +76,8 @@ model OrderProduct {
 enum OrderStatus {
   PENDING
   IN_PREPARATION
+  PAYMENT_CONFIRMED
+  PAYMENT_FAILED
   FINISHED
   CANCELLED
 }
@@ -83,5 +85,4 @@ enum OrderStatus {
 enum ConsumptionMethod {
   TAKEAWAY
   DINE_IN
-  DELIVERY
 }
