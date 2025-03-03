@@ -14,47 +14,61 @@ interface CartItemProps {
 const CartProductItem = ({ product }: CartItemProps) => {
   const { decreaseProductQuantity, increaseProductQuantity, removeProduct } =
     useContext(CartContext);
+
   return (
-    <div className="flex items-center justify-between">
-      {/* ESQUERDA */}
-      <div className="flex items-center gap-3">
-        <div className="relative h-20 w-20 rounded-xl bg-gray-100">
-          <Image src={product.imageUrl} alt={product.name} fill />
+    <div className="flex items-center justify-between rounded-xl p-3 transition-colors duration-200 hover:bg-gray-50">
+      {/* Product Info + Controls */}
+      <div className="flex items-center gap-4">
+        {/* Product Image */}
+        <div className="relative h-24 w-24 overflow-hidden rounded-lg bg-gray-100 shadow-sm">
+          <Image
+            src={product.imageUrl}
+            alt={product.name}
+            fill
+            className="object-cover transition-transform duration-300 hover:scale-110"
+          />
         </div>
-        <div className="space-y-1">
-          <p className="max-w-[90%] truncate text-ellipsis text-xs">
+
+        {/* Product Details */}
+        <div className="space-y-2">
+          <p className="max-w-[200px] truncate text-sm font-medium text-gray-800">
             {product.name}
           </p>
-          <p className="text-sm font-semibold">
+
+          <p className="text-base font-bold text-gray-900">
             {formatCurrency(product.price)}
           </p>
-          {/* QUANTIDADE */}
-          <div className="flex items-center gap-1 text-center">
+
+          {/* Quantity Controls */}
+          <div className="mt-2 flex items-center gap-2">
             <Button
-              className="h-7 w-7 rounded-lg"
+              className="h-8 w-8 rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200"
               variant="outline"
               onClick={() => decreaseProductQuantity(product.id)}
             >
-              <ChevronLeftIcon />
+              <ChevronLeftIcon size={16} />
             </Button>
-            <p className="w-7 text-xs">{product.quantity}</p>
+
+            <p className="w-8 text-center font-medium">{product.quantity}</p>
+
             <Button
-              className="h-7 w-7 rounded-lg"
+              className="h-8 w-8 rounded-full bg-gray-800 text-white hover:bg-gray-900"
               variant="destructive"
               onClick={() => increaseProductQuantity(product.id)}
             >
-              <ChevronRightIcon />
+              <ChevronRightIcon size={16} />
             </Button>
           </div>
         </div>
       </div>
-      {/* BOTÃO DE DELETAR */}
+
+      {/* Delete Button */}
       <Button
-        className="h-7 w-7 rounded-lg"
+        className="h-9 w-9 rounded-full text-gray-500 transition-colors hover:bg-red-50 hover:text-red-500"
         variant="outline"
         onClick={() => removeProduct(product.id)}
       >
-        <TrashIcon />
+        <TrashIcon size={18} />
       </Button>
     </div>
   );

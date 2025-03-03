@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ConsumptionMethod } from "@prisma/client";
 import { loadStripe } from "@stripe/stripe-js";
-import { Loader2Icon } from "lucide-react";
+import { CheckIcon, Loader2Icon, ShoppingBagIcon } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -11,6 +11,7 @@ import { PatternFormat } from "react-number-format";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Drawer,
   DrawerClose,
@@ -30,6 +31,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 
 import { createOrder } from "../actions/create-order";
 import { createStripeCheckout } from "../actions/create-stripe-checkout";
@@ -60,7 +62,7 @@ interface FinishOrderDialogProps {
 
 const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
   const { slug } = useParams<{ slug: string }>();
-  const { products } = useContext(CartContext);
+  const { products, total } = useContext(CartContext);
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<FormSchema>({
@@ -71,6 +73,7 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
     },
     shouldUnregister: true,
   });
+
   const onSubmit = async (data: FormSchema) => {
     try {
       setIsLoading(true);
@@ -105,63 +108,119 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
       setIsLoading(false);
     }
   };
+
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild></DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>Finalizar Pedido</DrawerTitle>
-          <DrawerDescription>
+      <DrawerContent className="max-h-[90vh]">
+        <DrawerHeader className="border-b border-gray-100 bg-gray-50">
+          <div className="flex items-center gap-2">
+            <ShoppingBagIcon className="h-5 w-5 text-gray-800" />
+            <DrawerTitle className="text-xl font-bold">
+              Finalizar Pedido
+            </DrawerTitle>
+          </div>
+          <DrawerDescription className="mt-2 text-gray-600">
             Insira suas informações abaixo para finalizar o seu pedido.
           </DrawerDescription>
         </DrawerHeader>
-        <div className="p-5">
+
+        <div className="overflow-y-auto p-6">
+          <Card className="mb-6 border-gray-200 bg-gray-50">
+            <CardContent className="p-4">
+              <h3 className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
+                <CheckIcon className="h-4 w-4 text-green-600" />
+                Resumo do pedido
+              </h3>
+              <div className="space-y-2">
+                <div className="text-sm text-gray-500">
+                  {products.length} {products.length === 1 ? "item" : "itens"}{" "}
+                  no carrinho
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">Total:</span>
+                  <span className="font-bold">
+                    R$ {total.toFixed(2).replace(".", ",")}
+                  </span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Seu nome</FormLabel>
+                    <FormLabel className="font-medium text-gray-700">
+                      Seu nome
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder="Digite seu nome..." {...field} />
+                      <Input
+                        placeholder="Digite seu nome completo"
+                        className="rounded-lg border-gray-300 focus:border-gray-400 focus:ring-gray-400"
+                        {...field}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-500" />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="cpf"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Seu CPF</FormLabel>
+                    <FormLabel className="font-medium text-gray-700">
+                      Seu CPF
+                    </FormLabel>
                     <FormControl>
                       <PatternFormat
-                        placeholder="Digite seu CPF..."
+                        placeholder="000.000.000-00"
                         format="###.###.###-##"
                         customInput={Input}
+                        className="rounded-lg border-gray-300 focus:border-gray-400 focus:ring-gray-400"
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-500" />
                   </FormItem>
                 )}
               />
 
-              <DrawerFooter>
+              <Separator className="my-4" />
+
+              <div className="rounded-lg border border-gray-100 bg-gray-50 p-4 text-sm text-gray-600">
+                <p>
+                  Ao finalizar, você será redirecionado para o Stripe para
+                  realizar o pagamento com segurança.
+                </p>
+              </div>
+
+              <DrawerFooter className="px-0 pt-2">
                 <Button
                   type="submit"
                   variant="destructive"
-                  className="rounded-full"
+                  className="h-12 rounded-full font-medium shadow-sm transition-all hover:shadow-md"
                   disabled={isLoading}
                 >
-                  {isLoading && <Loader2Icon className="animate-spin" />}
-                  Finalizar
+                  {isLoading ? (
+                    <span className="flex items-center gap-2">
+                      <Loader2Icon className="h-4 w-4 animate-spin" />
+                      Processando...
+                    </span>
+                  ) : (
+                    "Finalizar e pagar"
+                  )}
                 </Button>
                 <DrawerClose asChild>
-                  <Button className="w-full rounded-full" variant="outline">
+                  <Button
+                    className="rounded-full border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                    variant="outline"
+                  >
                     Cancelar
                   </Button>
                 </DrawerClose>
