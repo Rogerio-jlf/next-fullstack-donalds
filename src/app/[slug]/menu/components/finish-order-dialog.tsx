@@ -1,8 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ConsumptionMethod } from "@prisma/client";
+import { Loader2Icon } from "lucide-react";
+import { useParams, useSearchParams } from "next/navigation";
+import { useContext, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { PatternFormat } from "react-number-format";
+import { toast } from "sonner"
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -26,6 +31,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { createOrder } from "../actions/create-order";
+import { CartContext } from "../context/cart";
 import { isValideCPF } from "../helpers/cpf";
 
 const formSchema = z.object({
@@ -52,6 +59,11 @@ interface FinishOrderDialogProps {
 
 // COMPONENTE
 const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
+  const [isPeding, startTransition] = useTransition();
+  const { slug } = useParams<{ slug: string }>();
+  const searchParams = useSearchParams();
+  const { products } = useContext(CartContext);
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,16 +73,31 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
     shouldUnregister: true,
   });
 
-  const onSubmit = (data: FormSchema) => {
-    console.log(data);
+  const onSubmit = async (data: FormSchema) => {
+    try {
+      const consumptionMethod = searchParams.get(
+        "consumptionMethod",
+      ) as ConsumptionMethod;
+      startTransition(async () => {
+        await createOrder({
+          consumptionMethod,
+          customerName: data.name,
+          customerCPF: data.cpf,
+          products,
+          slug,
+        });
+        onOpenChange(false);
+        toast.success("Pedido finalizado com sucesso");
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <>
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerTrigger asChild>
-          <Button className="w-full rounded-full">Finalizar pedido</Button>
-        </DrawerTrigger>
+        <DrawerTrigger asChild></DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>Finalizar Pedido</DrawerTitle>
@@ -119,8 +146,10 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
                   <Button
                     type="submit"
                     variant="destructive"
+                    disabled={isPeding}
                     className="rounded-full"
                   >
+                    {isPeding && <Loader2Icon className="animate-spin" />}
                     Finalizar
                   </Button>
                   <DrawerClose asChild>
