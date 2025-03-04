@@ -58,8 +58,10 @@ export default {
       },
       fontFamily: {
         Poppins: ["Poppins", "sans-serif"],
+        Kodchasan: ["Kodchasan", "sans-serif"],
       },
     },
   },
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;

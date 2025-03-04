@@ -3,6 +3,12 @@ import Image from "next/image";
 import { useContext } from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { formatCurrency } from "@/helpers/format-currency";
 
 import { CartContext, CartProduct } from "../contexts/cart";
@@ -16,11 +22,11 @@ const CartProductItem = ({ product }: CartItemProps) => {
     useContext(CartContext);
 
   return (
-    <div className="flex items-center justify-between rounded-xl p-3 transition-colors duration-200 hover:bg-gray-50">
+    <div className="flex items-center justify-between rounded-xl p-3 font-Poppins transition-all hover:bg-gray-100">
       {/* Product Info + Controls */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-6">
         {/* Product Image */}
-        <div className="relative h-24 w-24 overflow-hidden rounded-lg bg-gray-100 shadow-sm">
+        <div className="relative h-24 w-24 overflow-hidden rounded-lg bg-transparent">
           <Image
             src={product.imageUrl}
             alt={product.name}
@@ -31,20 +37,19 @@ const CartProductItem = ({ product }: CartItemProps) => {
 
         {/* Product Details */}
         <div className="space-y-2">
-          <p className="max-w-[200px] truncate text-sm font-medium text-gray-800">
+          <p className="max-w-[200px] truncate text-sm font-semibold text-gray-500">
             {product.name}
           </p>
 
-          <p className="text-base font-bold text-gray-900">
+          <p className="text-xl font-bold italic text-gray-500">
             {formatCurrency(product.price)}
           </p>
 
           {/* Quantity Controls */}
           <div className="mt-2 flex items-center gap-2">
             <Button
-              className="h-8 w-8 rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200"
-              variant="outline"
               onClick={() => decreaseProductQuantity(product.id)}
+              className="h-8 w-8 rounded-full border-none bg-transparent text-black shadow-sm shadow-black transition-all hover:bg-gray-300 active:scale-90"
             >
               <ChevronLeftIcon size={16} />
             </Button>
@@ -52,24 +57,34 @@ const CartProductItem = ({ product }: CartItemProps) => {
             <p className="w-8 text-center font-medium">{product.quantity}</p>
 
             <Button
-              className="h-8 w-8 rounded-full bg-gray-800 text-white hover:bg-gray-900"
-              variant="destructive"
               onClick={() => increaseProductQuantity(product.id)}
+              className="h-8 w-8 rounded-full border-none bg-red-500 text-white shadow-sm shadow-black transition-all hover:bg-red-800 active:scale-90"
             >
               <ChevronRightIcon size={16} />
             </Button>
           </div>
+          {/* ---------- */}
         </div>
       </div>
 
-      {/* Delete Button */}
-      <Button
-        className="h-9 w-9 rounded-full text-gray-500 transition-colors hover:bg-red-50 hover:text-red-500"
-        variant="outline"
-        onClick={() => removeProduct(product.id)}
-      >
-        <TrashIcon size={18} />
-      </Button>
+      {/* BUTTON DELETE */}
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger className="relative">
+            <Button
+              className="h-9 w-9 rounded-full border-none bg-transparent text-gray-500 shadow-sm shadow-black transition-all hover:bg-red-500 hover:text-white"
+              variant="outline"
+              onClick={() => removeProduct(product.id)}
+            >
+              <TrashIcon size={18} />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent className="rounded-lg border-none bg-red-500 p-2 text-white transition-all">
+            <p className="text-xs">Excluir item</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      {/* ---------- */}
     </div>
   );
 };

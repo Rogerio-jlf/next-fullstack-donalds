@@ -11,25 +11,26 @@ interface RestaurantHeaderProps {
   restaurant: Pick<Restaurant, "name" | "coverImageUrl">;
 }
 
+// Component
 const RestaurantHeader = ({ restaurant }: RestaurantHeaderProps) => {
   const { slug } = useParams<{ slug: string }>();
   const router = useRouter();
   const handleBackClick = () => router.back();
   const handleOrdersClick = () => router.push(`/${slug}/orders`);
 
+  // Rendering
   return (
-    <div className="group relative h-[250px] w-full">
+    <div className="group relative h-[250px] w-full font-Kodchasan">
       {/* Gradient overlay for better text visibility */}
       <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/70 to-transparent" />
 
       {/* Back button with hover effect */}
       <Button
-        variant="secondary"
         size="icon"
-        className="absolute left-4 top-4 z-50 rounded-full bg-white/20 shadow-md backdrop-blur-sm transition-all duration-200 hover:bg-white/40"
         onClick={handleBackClick}
+        className="absolute left-4 top-4 z-50 rounded-full bg-transparent shadow-sm shadow-black transition-all hover:bg-gray-300 active:scale-90 border-none"
       >
-        <ChevronLeftIcon className="text-white" />
+        <ChevronLeftIcon className="text-black h-5 w-5" />
       </Button>
 
       {/* Restaurant cover image with subtle zoom effect on hover */}
@@ -38,27 +39,19 @@ const RestaurantHeader = ({ restaurant }: RestaurantHeaderProps) => {
           src={restaurant.coverImageUrl}
           alt={restaurant.name}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover transition-all group-hover:scale-110"
           priority
         />
       </div>
 
       {/* Orders button with hover effect */}
       <Button
-        variant="secondary"
         size="icon"
-        className="absolute right-4 top-4 z-50 rounded-full bg-white/20 shadow-md backdrop-blur-sm transition-all duration-200 hover:bg-white/40"
         onClick={handleOrdersClick}
+        className="absolute right-4 top-4 z-50 rounded-full bg-transparent shadow-sm shadow-black transition-all hover:bg-gray-300 active:scale-90 border-none"
       >
-        <ScrollTextIcon className="text-white" />
+        <ScrollTextIcon className="text-black h-5 w-5" />
       </Button>
-
-      {/* Restaurant name */}
-      <div className="absolute bottom-4 left-4 z-20">
-        <h1 className="text-2xl font-bold text-white drop-shadow-md">
-          {restaurant.name}
-        </h1>
-      </div>
     </div>
   );
 };

@@ -12,6 +12,7 @@ interface ProductHeaderProps {
   product: Pick<Product, "name" | "imageUrl">;
 }
 
+// Component
 const ProductHeader = ({ product }: ProductHeaderProps) => {
   const { slug } = useParams<{ slug: string }>();
   const router = useRouter();
@@ -21,20 +22,18 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
   const handleOrdersClick = () => router.push(`/${slug}/orders`);
   const toggleFavorite = () => setIsFavorite(!isFavorite);
 
+  // Rendering
   return (
-    <div className="relative min-h-[300px] w-full bg-slate-50">
-      {/* Subtle gradient background */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-t from-slate-100 to-white" />
-
+    <div className="relative min-h-[300px] w-full font-Kodchasan bg-gray-300">
       {/* Back button */}
       <Button
-        variant="secondary"
         size="icon"
-        className="absolute left-4 top-4 z-50 rounded-full bg-white/90 shadow-md backdrop-blur-sm transition-all duration-200 hover:bg-white"
         onClick={handleBackClick}
+        className="absolute left-4 top-4 z-50 rounded-full bg-transparent shadow-sm shadow-black transition-all hover:bg-gray-600 active:scale-90 border-none text-black hover:text-white"
       >
-        <ChevronLeftIcon className="text-slate-600" />
+        <ChevronLeftIcon className="h-5 w-5" />
       </Button>
+      {/* ---------- */}
 
       {/* Product image with container */}
       <div className="absolute inset-0 flex items-center justify-center p-6">
@@ -48,41 +47,35 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
           />
         </div>
       </div>
+      {/* ---------- */}
 
       {/* Actions container */}
-      <div className="absolute right-4 top-4 z-50 flex gap-2">
+      <div className="absolute right-4 top-4 z-50 flex gap-4">
         {/* Favorite button */}
         <Button
-          variant="secondary"
           size="icon"
-          className={`rounded-full ${
+          className={`border-none rounded-full shadow-sm shadow-black ${
             isFavorite
-              ? "bg-rose-50 text-rose-500 hover:bg-rose-100"
-              : "bg-white/90 backdrop-blur-sm hover:bg-white"
-          } shadow-md transition-all duration-200`}
+              ? "bg-red-300 text-red-600 hover:bg-red-300"
+              : "bg-transparent hover:bg-gray-600"
+          } transition-all active:scale-90 text-black hover:text-white`}
           onClick={toggleFavorite}
         >
           <HeartIcon
-            className={`${isFavorite ? "fill-rose-500 text-rose-500" : "text-slate-600"}`}
-            size={18}
+            className={`${isFavorite ? "fill-red-600 text-red-600" : "active:scale-90"} h-5 w-5`}
           />
         </Button>
 
         {/* Orders button */}
         <Button
-          variant="secondary"
           size="icon"
-          className="rounded-full bg-white/90 shadow-md backdrop-blur-sm transition-all duration-200 hover:bg-white"
           onClick={handleOrdersClick}
+          className="rounded-full bg-transparent shadow-sm shadow-black transition-all hover:bg-gray-600 border-none active:scale-90 text-black hover:text-white"
         >
-          <ScrollTextIcon className="text-slate-600" size={18} />
+          <ScrollTextIcon className="h-5 w-5" />
         </Button>
       </div>
-
-      {/* Product name tag */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-white via-white to-transparent px-4 pb-3 pt-16 text-center">
-        <h1 className="text-xl font-bold text-slate-800">{product.name}</h1>
-      </div>
+      {/* ---------- */}
     </div>
   );
 };

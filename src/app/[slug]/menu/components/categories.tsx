@@ -28,6 +28,7 @@ type MenuCategoriesWithProducts = Prisma.MenuCategoryGetPayload<{
   include: { products: true };
 }>;
 
+// Component
 const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
   const [selectedCategory, setSelectedCategory] =
     useState<MenuCategoriesWithProducts>(restaurant.menuCategory[0]);
@@ -42,12 +43,14 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
     return selectedCategory.id === category.id ? "default" : "secondary";
   };
 
+  // Rendering
   return (
     <div className="relative z-50 mt-[-1.5rem] rounded-t-3xl bg-white shadow-lg">
       {/* Restaurant Info Section */}
-      <div className="border-b p-5">
+      <div className="border-b border-gray-300 p-5">
         <div className="flex items-center gap-3">
-          <div className="relative h-14 w-14 overflow-hidden rounded-full border-2 border-primary shadow-sm">
+          {/* Image */}
+          <div className="relative h-14 w-14 overflow-hidden rounded-full border-none">
             <Image
               src={restaurant.avatarImageUrl}
               alt={restaurant.name}
@@ -55,34 +58,40 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
               className="object-cover"
             />
           </div>
+
           <div className="flex-1">
             <h2 className="text-lg font-bold">{restaurant.name}</h2>
-            <p className="line-clamp-1 text-xs text-muted-foreground">
+
+            <p className="line-clamp-1 text-xs text-gray-600 font-medium">
               {restaurant.description}
             </p>
 
             <div className="mt-1 flex items-center gap-3">
               <div className="flex items-center gap-1 text-xs font-medium text-green-600">
                 <ClockIcon size={12} className="fill-green-600" />
+
                 <p>Aberto agora</p>
               </div>
 
               <div className="flex items-center gap-1 text-xs text-amber-500">
                 <StarIcon size={12} className="fill-amber-500" />
+
                 <p className="font-medium">4.8</p>
               </div>
 
-              <div className="flex items-center gap-1 text-xs text-slate-500">
+              <div className="flex items-center gap-1 text-xs font-medium text-gray-600">
                 <MapPinIcon size={12} />
+
                 <p>1.2 km</p>
               </div>
             </div>
           </div>
         </div>
       </div>
+      {/* ---------- */}
 
       {/* Categories Scroll Section */}
-      <ScrollArea className="w-full border-b">
+      <ScrollArea className="w-full border-b border-gray-300">
         <div className="flex w-max space-x-2 p-4">
           {restaurant.menuCategory.map((category) => (
             <Button
@@ -90,17 +99,17 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
               key={category.id}
               variant={getCategoryButtonVariant(category)}
               size="sm"
-              className={`rounded-full transition-all ${
+              className={`rounded-full border-none shadow-sm shadow-black transition-all ${
                 selectedCategory.id === category.id
-                  ? "shadow-md"
-                  : "hover:bg-slate-100"
+                  ? "font-semibold text-black"
+                  : "hover:bg-gray-300"
               }`}
             >
               {category.name}
               {category.products.length > 0 && (
                 <Badge
                   variant="outline"
-                  className="ml-2 bg-slate-100 text-xs font-normal"
+                  className="ml-2 bg-slate-100 text-xs font-semibold"
                 >
                   {category.products.length}
                 </Badge>
@@ -110,18 +119,20 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
         </div>
         <ScrollBar orientation="horizontal" className="h-2" />
       </ScrollArea>
+      {/* ---------- */}
 
       {/* Category Title and Products */}
-      <div className="bg-slate-50">
-        <div className="flex items-center justify-between border-b px-5 py-3">
-          <h3 className="font-bold text-slate-800">{selectedCategory.name}</h3>
-          <span className="text-xs text-muted-foreground">
+      <div>
+        <div className="flex items-center justify-between border-b border-gray-300 px-5 py-3">
+          <h3 className="font-bold text-black">{selectedCategory.name}</h3>
+          <span className="text-xs text-black font-bold">
             {selectedCategory.products.length}{" "}
             {selectedCategory.products.length === 1 ? "item" : "itens"}
           </span>
         </div>
         <Products products={selectedCategory.products} />
       </div>
+      {/* ---------- */}
 
       {/* Cart Summary Bar */}
       {products.length > 0 && (
@@ -133,13 +144,14 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
             <p className="text-base font-semibold text-slate-900">
               {formatCurrency(total)}
               <span className="ml-1 text-xs font-normal text-muted-foreground">
-                • {totalQuantity} {totalQuantity > 1 ? "itens" : "item"}
+                - {totalQuantity} {totalQuantity > 1 ? "itens" : "item"}
               </span>
             </p>
           </div>
+
           <Button
             onClick={toggleCart}
-            className="px-6 shadow-md transition-all hover:shadow-lg"
+            className="bg-red-500 px-6 font-semibold italic text-white shadow-sm shadow-black transition-all hover:bg-red-800 active:scale-90"
           >
             Ver sacola
           </Button>

@@ -20,9 +20,9 @@ const ConsumptionMethodOption = ({
   option,
 }: ConsumptionMethodOptionProps) => {
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full font-Kodchasan">
       <div className="flex h-full flex-col items-center justify-between gap-4">
-        <div className="relative flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-primary/10 p-2">
+        <div className="relative flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-transparent border-none p-2 shadow-sm shadow-black">
           <Image
             src={imageUrl}
             fill
@@ -31,12 +31,12 @@ const ConsumptionMethodOption = ({
           />
         </div>
 
-        <h3 className="text-center text-base font-medium text-gray-800">
+        <h3 className="text-center text-base font-medium text-gray-600">
           {buttonText}
         </h3>
 
         <Button
-          className="w-full rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
+          className="w-full rounded-lg bg-red-600 px-4 py-2 font-semibold italic text-white shadow-sm shadow-black transition-all  hover:bg-red-900 active:scale-90 border-none"
           asChild
         >
           <Link href={`/${slug}/menu?consumptionMethod=${option}`}>
@@ -50,7 +50,7 @@ const ConsumptionMethodOption = ({
             <div
               key={method}
               className={`h-2 w-2 rounded-full ${
-                option === method ? "bg-primary" : "bg-gray-200"
+                option === method ? "bg-red-600" : "bg-gray-300"
               }`}
             />
           ))}

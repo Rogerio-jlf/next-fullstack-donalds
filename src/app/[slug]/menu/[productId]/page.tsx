@@ -71,7 +71,7 @@ const ProductPage = async ({ params }: ProductPageProps) => {
   }
 
   return (
-    <div className="flex h-full min-h-screen flex-col bg-gradient-to-b from-white to-slate-50">
+    <div className="flex h-full min-h-screen flex-col bg-gray-300">
       <Suspense fallback={<ProductPageSkeleton />}>
         <div className="sticky top-0 z-20 bg-white">
           <ProductHeader product={product} />

@@ -27,26 +27,27 @@ const CartSheet = () => {
 
   return (
     <Sheet open={isOpen} onOpenChange={toggleCart}>
-      <SheetContent className="w-[90%] max-w-full border-l border-gray-200 p-0 sm:w-[450px]">
+      <SheetContent className="w-[90%] max-w-full border-l border-gray-300 p-0 font-Poppins sm:w-[450px]">
         <div className="flex h-full flex-col">
-          {/* Header */}
-          <SheetHeader className="border-b border-gray-100 px-6 py-5">
+          {/* HEADER */}
+          <SheetHeader className="border-b border-gray-300 px-6 py-5">
             <div className="flex items-center justify-between">
-              <SheetTitle className="flex items-center gap-2 text-xl font-bold">
+              <SheetTitle className="flex items-center gap-2 text-xl font-bold text-gray-500">
                 <ShoppingBagIcon size={20} />
                 Sacola
                 {itemCount > 0 && (
-                  <span className="ml-2 rounded-full bg-gray-100 px-2 py-1 text-sm text-gray-700">
+                  <span className="ml-2 rounded-full bg-gray-300 px-2 py-1 text-sm text-gray-500 border-none">
                     {itemCount} {itemCount === 1 ? "item" : "itens"}
                   </span>
                 )}
               </SheetTitle>
             </div>
           </SheetHeader>
+          {/* ---------- */}
 
-          {/* Cart Content */}
+          {/* CART CONTENT */}
           <div className="flex h-full flex-col">
-            {/* Cart Items */}
+            {/* CART ITEM */}
             <div className="flex-auto overflow-y-auto p-6">
               {products.length === 0 ? (
                 <div className="flex h-64 flex-col items-center justify-center text-center">
@@ -63,53 +64,67 @@ const CartSheet = () => {
                   {products.map((product) => (
                     <div key={product.id}>
                       <CartProductItem product={product} />
-                      <Separator className="mt-4" />
+                      <Separator className="mt-4 bg-gray-300" />
                     </div>
                   ))}
                 </div>
               )}
             </div>
 
-            {/* Cart Footer */}
-            <div className="space-y-4 border-t border-gray-100 bg-gray-50 p-6">
-              <Card className="border border-gray-200 bg-white shadow-sm">
+            {/* CART FOOTER */}
+            <div className="space-y-4 border-t border-gray-300 bg-gray-50 p-6">
+              {/* SUBTOTAL, ENTREGA, TOTAL */}
+              <Card className="border border-gray-300 bg-white shadow-sm shadow-black">
                 <CardContent className="p-4">
                   <div className="space-y-3">
                     <div className="flex justify-between text-sm">
-                      <p className="text-gray-500">Subtotal</p>
-                      <p className="font-medium">{formatCurrency(total)}</p>
+                      <p className="font-semibold text-gray-500">Subtotal</p>
+                      <p className="font-semibold text-gray-500">
+                        {formatCurrency(total)}
+                      </p>
                     </div>
+
                     <div className="flex justify-between text-sm">
-                      <p className="text-gray-500">Entrega</p>
-                      <p className="font-medium">Grátis</p>
+                      <p className="font-semibold text-gray-500">Entrega</p>
+                      <p className="font-semibold text-gray-500">Grátis</p>
                     </div>
-                    <Separator />
+
+                    <Separator className="bg-gray-300" />
+
                     <div className="flex justify-between pt-2">
-                      <p className="font-medium">Total</p>
-                      <p className="text-lg font-bold">
+                      <p className="text-lg font-semibold italic text-gray-500">
+                        Total
+                      </p>
+                      <p className="text-lg font-bold italic text-gray-500">
                         {formatCurrency(total)}
                       </p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
+              {/* ---------- */}
 
+              {/* BUTTON FINALIZAR */}
               <Button
-                className="h-12 w-full rounded-full text-base font-medium shadow-md"
+                className="h-12 w-full rounded-lg bg-red-500 text-base font-semibold italic text-white shadow-sm shadow-black transition-all hover:bg-red-800 active:scale-90 border-none"
                 disabled={products.length === 0}
                 onClick={() => setFinishOrderDialogIsOpen(true)}
               >
                 Finalizar pedido
               </Button>
+              {/* ---------- */}
 
               <FinishOrderDialog
                 open={finishOrderDialogIsOpen}
                 onOpenChange={setFinishOrderDialogIsOpen}
               />
             </div>
+            {/* ---------- */}
           </div>
+          {/* ---------- */}
         </div>
       </SheetContent>
+      {/* ---------- */}
     </Sheet>
   );
 };

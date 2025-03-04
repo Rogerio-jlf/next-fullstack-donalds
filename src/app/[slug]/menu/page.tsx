@@ -56,7 +56,7 @@ const RestaurantMenuPage = async ({
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-slate-50">
+    <div className="flex min-h-screen flex-col bg-slate-50 font-Kodchasan">
       <div className="sticky top-0 z-10 w-full">
         <Suspense fallback={<RestaurantMenuSkeleton />}>
           <RestaurantHeader restaurant={restaurant} />

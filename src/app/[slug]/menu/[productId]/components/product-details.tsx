@@ -33,6 +33,7 @@ interface ProductDetailsProps {
   }>;
 }
 
+// Component
 const ProductDetails = ({ product }: ProductDetailsProps) => {
   const { toggleCart, addProduct } = useContext(CartContext);
   const [quantity, setQuantity] = useState<number>(1);
@@ -60,13 +61,15 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
   const totalPrice = product.price * quantity;
 
+  // Rendering
   return (
     <>
-      <div className="relative z-50 mt-[-1.5rem] flex flex-auto flex-col overflow-hidden rounded-t-3xl bg-white p-6 shadow-lg">
+      <div className="relative z-50 flex flex-auto flex-col overflow-hidden p-6 font-Kodchasan rounded-t-3xl bg-white shadow-lg">
         <div className="flex-auto overflow-hidden">
           {/* Restaurant Info */}
-          <div className="mb-3 flex items-center gap-2">
-            <div className="relative h-6 w-6 overflow-hidden rounded-full border border-slate-200">
+          <div className="mb-6 flex items-center gap-2">
+            {/* Image */}
+            <div className="relative h-6 w-6 overflow-hidden rounded-full border-none">
               <Image
                 src={product.restaurant.avatarImageUrl}
                 alt={product.restaurant.name}
@@ -74,34 +77,39 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
                 className="object-cover"
               />
             </div>
-            <p className="text-xs font-medium text-slate-500">
+
+            <p className="text-xs font-bold text-gray-600">
               {product.restaurant.name}
             </p>
+
             <Badge
-              variant="outline"
-              className="ml-auto border-green-200 bg-green-50 px-2 py-0 text-xs text-green-600"
+              className="ml-auto bg-green-600 px-2 py-1 text-xs text-black font-bold shadow-sm shadow-black"
             >
               <ClockIcon size={12} className="mr-1" />
-              15-25 min
+              15 - 25 min
             </Badge>
           </div>
+          {/* ---------- */}
 
           {/* Product Name & Highlights */}
           <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-slate-800">
+            <h2 className="text-2xl font-bold text-gray-600">
               {product.name}
             </h2>
           </div>
+          {/* ---------- */}
 
           {/* Price & Quantity Selector */}
-          <div className="mt-6 flex items-center justify-between rounded-xl bg-slate-50 p-4">
+          <div className="mt-2 flex items-center justify-between p-4 border-b border-gray-300">
             <div>
-              <p className="mb-1 text-xs text-slate-500">Preço</p>
-              <h3 className="text-2xl font-bold text-slate-800">
+              <p className="mb-1 text-sm text-gray-600 font-semibold">Preço</p>
+
+              <h3 className="text-2xl font-bold text-gray-600">
                 {formatCurrency(totalPrice)}
               </h3>
+
               {quantity > 1 && (
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-gray-600 font-medium">
                   {formatCurrency(product.price)} cada
                 </p>
               )}
@@ -109,70 +117,78 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
             <div className="flex items-center gap-3">
               <Button
-                variant="outline"
                 size="icon"
-                className="h-10 w-10 rounded-full border-slate-300 text-slate-700"
                 onClick={handleDecreaseQuantity}
+                className="h-10 w-10 rounded-full bg-transparent shadow-sm shadow-black transition-all hover:bg-gray-300 active:scale-90 border-none"
               >
-                <ChevronLeftIcon size={16} />
+                <ChevronLeftIcon className="text-black h-5 w-5"/>
               </Button>
-              <p className="w-6 text-center text-lg font-semibold">
+
+              <p className="w-6 text-center text-lg font-bold text-gray-600">
                 {quantity}
               </p>
+
               <Button
-                variant="default"
                 size="icon"
-                className="h-10 w-10 rounded-full"
                 onClick={handleIncreaseQuantity}
+                className="h-10 w-10 rounded-full bg-red-600 shadow-sm shadow-black transition-all hover:bg-red-900 active:scale-90 border-none"
               >
-                <ChevronRightIcon size={16} />
+                <ChevronRightIcon className="text-white h-5 w-5"/>
               </Button>
             </div>
           </div>
-
-          <ScrollArea className="mt-6 max-h-64 pr-4">
+          {/* ---------- */}
+          
+          {/* Description & Ingredients */}
+          <ScrollArea className="mt-6 pr-4">
             {/* Description */}
             <div className="space-y-3">
-              <h4 className="flex items-center gap-2 font-semibold text-slate-800">
-                <InfoIcon size={18} />
+              <h4 className="flex items-center gap-2 font-semibold text-gray-600 text-md">
+                <InfoIcon className="h-4 w-4" />
                 Sobre
               </h4>
-              <p className="text-sm leading-relaxed text-slate-600">
+
+              <p className="text-sm leading-relaxed text-slate-600 font-medium">
                 {product.description}
               </p>
             </div>
 
-            <Separator className="my-6" />
+            <Separator className="my-6 bg-gray-300" />
 
             {/* Ingredients */}
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <ChefHatIcon size={18} className="text-slate-700" />
-                <h4 className="font-semibold text-slate-800">Ingredientes</h4>
+                <ChefHatIcon className="text-gray-600 h-4 w-4" />
+
+                <h4 className="font-semibold text-gray-600 text-md">Ingredientes</h4>
               </div>
+
               <ul className="grid grid-cols-1 gap-2 pl-2">
-                {product.ingredients.map((ingredient) => (
+                {product.ingredients.map((ingredient, index) => (
                   <li
-                    key={ingredient}
-                    className="flex items-center gap-2 text-sm text-slate-600"
+                    key={index}
+                    className="flex items-center gap-2 text-sm text-gray-600 font-medium"
                   >
-                    <div className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+                    <div className="h-1.5 w-1.5 rounded-full bg-gray-600" />
                     {ingredient}
                   </li>
                 ))}
               </ul>
             </div>
           </ScrollArea>
+          {/* ---------- */}
         </div>
-
-        <div className="mt-6 border-t pt-4">
+        
+        {/* Add to Cart Button */}
+        <div className="mt-6 border-t border-gray-300 pt-4">
           <Button
-            className="h-12 w-full rounded-full text-base font-semibold shadow-md transition-all hover:shadow-lg"
             onClick={handleAddToCart}
+            className="h-12 w-full rounded-lg bg-red-600 text-md font-semibold italic text-white shadow-sm shadow-black transition-all hover:bg-red-900 active:scale-90 border-none"
           >
-            Adicionar à sacola • {formatCurrency(totalPrice)}
+            Adicionar à sacola - {formatCurrency(totalPrice)}
           </Button>
         </div>
+        {/* ---------- */}
       </div>
       <CartSheet />
     </>

@@ -40,9 +40,9 @@ const getStatusLabel = (status: OrderStatus) => {
 };
 
 const getStatusColor = (status: OrderStatus) => {
-  if (status === "FINISHED") return "bg-green-600";
+  if (status === "FINISHED") return "bg-green-500";
   if (status === "IN_PREPARATION") return "bg-amber-500";
-  if (status === "PENDING") return "bg-gray-400";
+  if (status === "PENDING") return "bg-gray-500";
   if (status === "PAYMENT_CONFIRMED") return "bg-green-500";
   if (status === "PAYMENT_FAILED") return "bg-red-500";
   return "bg-gray-400";
@@ -53,19 +53,18 @@ const OrderList = ({ orders }: OrderListProps) => {
   const handleBackClick = () => router.back();
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6 bg-gray-50 p-6">
+    <div className="mx-auto max-w-3xl space-y-6 bg-gray-50 p-6 font-Poppins">
       <div className="flex items-center justify-between">
         <Button
           size="icon"
-          variant="ghost"
-          className="rounded-full hover:bg-gray-100"
           onClick={handleBackClick}
+          className="rounded-full bg-transparent hover:bg-gray-300 shadow-sm shadow-black border-none transition-all active:scale-90"
         >
-          <ChevronLeftIcon className="h-5 w-5" />
+          <ChevronLeftIcon className="h-5 w-5 text-black" />
         </Button>
         <div className="flex items-center gap-2">
-          <ScrollTextIcon className="text-primary" />
-          <h2 className="text-xl font-bold">Meus Pedidos</h2>
+          <ScrollTextIcon className="text-black" />
+          <h2 className="text-xl font-bold text-black">Meus Pedidos</h2>
         </div>
         <div className="w-10"></div> {/* Spacer for balance */}
       </div>
@@ -85,13 +84,16 @@ const OrderList = ({ orders }: OrderListProps) => {
           {orders.map((order) => (
             <Card
               key={order.id}
-              className="overflow-hidden border border-gray-200 shadow-sm transition-shadow duration-200 hover:shadow-md"
+              className="overflow-hidden border border-gray-300 shadow-sm shadow-black transition-all"
             >
               <CardContent className="p-0">
                 <div className="bg-white p-4">
+                  {/* First Part  */}
                   <div className="mb-4 flex items-center justify-between">
+
                     <div className="flex items-center gap-3">
-                      <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-gray-100">
+                      {/* Image */}
+                      <div className="relative h-10 w-10 overflow-hidden rounded-full">
                         <Image
                           src={order.restaurant.avatarImageUrl}
                           alt={order.restaurant.name}
@@ -99,11 +101,13 @@ const OrderList = ({ orders }: OrderListProps) => {
                           fill
                         />
                       </div>
+
+                      {/* Restaurante, Date */}
                       <div>
-                        <p className="font-bold text-gray-900">
+                        <p className="font-bold text-black text-md">
                           {order.restaurant.name}
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-gray-600 font-medium">
                           {new Date(order.createdAt).toLocaleDateString(
                             "pt-BR",
                             {
@@ -115,15 +119,18 @@ const OrderList = ({ orders }: OrderListProps) => {
                         </p>
                       </div>
                     </div>
+                    
+                    {/* Status */}
                     <div
-                      className={`rounded-full px-3 py-1 text-xs font-bold text-white ${getStatusColor(order.status)}`}
+                      className={`rounded-full px-3 py-1 text-xs font-bold italic text-white shadow-sm shadow-black border-none ${getStatusColor(order.status)}`}
                     >
                       {getStatusLabel(order.status)}
                     </div>
                   </div>
 
-                  <Separator className="my-3" />
-
+                  <Separator className="my-3 bg-gray-300" />
+                
+                  {/* Second Part */}
                   <div className="space-y-3 py-2">
                     {order.orderProducts.map((orderProduct) => (
                       <div
@@ -131,14 +138,16 @@ const OrderList = ({ orders }: OrderListProps) => {
                         className="flex items-center justify-between"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
+                          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-500 text-xs font-bold text-black shadow-sm shadow-black border-none">
                             {orderProduct.quantity}
                           </div>
-                          <p className="text-sm font-medium text-gray-800">
+
+                          <p className="text-sm font-semibold italic text-gray-600">
                             {orderProduct.product.name}
                           </p>
                         </div>
-                        <p className="text-sm text-gray-600">
+
+                        <p className="text-sm text-gray-600 font-semibold">
                           {formatCurrency(
                             orderProduct.product.price * orderProduct.quantity,
                           )}
@@ -147,11 +156,13 @@ const OrderList = ({ orders }: OrderListProps) => {
                     ))}
                   </div>
 
-                  <Separator className="my-3" />
-
+                  <Separator className="my-3 bg-gray-300" />
+                  
+                  {/* Third Part */}
                   <div className="flex items-center justify-between pt-2">
-                    <p className="text-sm font-medium text-gray-500">Total</p>
-                    <p className="text-lg font-bold text-primary">
+                    <p className="text-lg italic font-bold text-red-500">Total</p>
+
+                    <p className="text-lg font-bold text-red-500 italic">
                       {formatCurrency(order.total)}
                     </p>
                   </div>
