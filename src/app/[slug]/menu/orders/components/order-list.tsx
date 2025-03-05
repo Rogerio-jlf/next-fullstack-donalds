@@ -52,29 +52,36 @@ const OrderList = ({ orders }: OrderListProps) => {
   const router = useRouter();
   const handleBackClick = () => router.back();
 
+  // Rendering
   return (
-    <div className="mx-auto max-w-3xl space-y-6 bg-gray-50 p-6 font-Poppins">
+    <div className="mx-auto max-w-3xl space-y-6 p-6 font-Kodchasan">
       <div className="flex items-center justify-between">
         <Button
           size="icon"
           onClick={handleBackClick}
-          className="rounded-full bg-transparent hover:bg-gray-300 shadow-sm shadow-black border-none transition-all active:scale-90"
+          className="rounded-full bg-transparent hover:bg-gray-300 text-black shadow-sm shadow-black border-none transition-all active:scale-90"
         >
-          <ChevronLeftIcon className="h-5 w-5 text-black" />
+          <ChevronLeftIcon className="h-5 w-5" />
         </Button>
+
         <div className="flex items-center gap-2">
           <ScrollTextIcon className="text-black" />
+
           <h2 className="text-xl font-bold text-black">Meus Pedidos</h2>
         </div>
         <div className="w-10"></div> {/* Spacer for balance */}
       </div>
+      {/* ---------- */}
 
+      {/*  */}
       {orders.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-12 text-center">
-          <ScrollTextIcon className="mb-4 h-12 w-12 text-gray-300" />
+          <ScrollTextIcon className="mb-4 h-12 w-12 text-gray-600" />
+
           <h3 className="text-lg font-medium text-gray-900">
             Nenhum pedido encontrado
           </h3>
+
           <p className="mt-2 text-sm text-gray-500">
             Seus pedidos aparecerão aqui quando você fizer seu primeiro pedido.
           </p>
@@ -107,7 +114,8 @@ const OrderList = ({ orders }: OrderListProps) => {
                         <p className="font-bold text-black text-md">
                           {order.restaurant.name}
                         </p>
-                        <p className="text-xs text-gray-600 font-medium">
+
+                        <p className="text-xs text-gray-600 font-semibold">
                           {new Date(order.createdAt).toLocaleDateString(
                             "pt-BR",
                             {
@@ -122,7 +130,7 @@ const OrderList = ({ orders }: OrderListProps) => {
                     
                     {/* Status */}
                     <div
-                      className={`rounded-full px-3 py-1 text-xs font-bold italic text-white shadow-sm shadow-black border-none ${getStatusColor(order.status)}`}
+                      className={`rounded-full px-3 py-1 text-xs font-semibold italic text-white shadow-sm shadow-black border-none ${getStatusColor(order.status)}`}
                     >
                       {getStatusLabel(order.status)}
                     </div>
@@ -138,11 +146,11 @@ const OrderList = ({ orders }: OrderListProps) => {
                         className="flex items-center justify-between"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-500 text-xs font-bold text-black shadow-sm shadow-black border-none">
+                          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-black shadow-sm shadow-black border-none">
                             {orderProduct.quantity}
                           </div>
 
-                          <p className="text-sm font-semibold italic text-gray-600">
+                          <p className="text-sm font-semibold text-gray-600">
                             {orderProduct.product.name}
                           </p>
                         </div>
@@ -160,9 +168,9 @@ const OrderList = ({ orders }: OrderListProps) => {
                   
                   {/* Third Part */}
                   <div className="flex items-center justify-between pt-2">
-                    <p className="text-lg italic font-bold text-red-500">Total</p>
+                    <p className="text-xl italic font-bold text-red-600">Total</p>
 
-                    <p className="text-lg font-bold text-red-500 italic">
+                    <p className="text-xl font-bold text-red-600 italic">
                       {formatCurrency(order.total)}
                     </p>
                   </div>

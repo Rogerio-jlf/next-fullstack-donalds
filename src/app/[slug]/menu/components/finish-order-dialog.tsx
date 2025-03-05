@@ -112,38 +112,39 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild></DrawerTrigger>
-      <DrawerContent className="max-h-[90vh] font-Poppins">
-        <DrawerHeader className="border-b border-gray-300 bg-gray-50">
+      <DrawerContent className="max-h-[90vh] font-Kodchasan">
+
+        <DrawerHeader className="border-b border-gray-300">
           <div className="flex items-center gap-2">
             <ShoppingBagIcon className="h-5 w-5 text-black" />
             <DrawerTitle className="text-xl font-bold text-black">
               Finalizar Pedido
             </DrawerTitle>
           </div>
-          <DrawerDescription className="mt-2 text-gray-600 font-medium">
+          <DrawerDescription className="mt-2 text-gray-600 font-semibold">
             Insira suas informações abaixo para finalizar o seu pedido.
           </DrawerDescription>
         </DrawerHeader>
         {/* ---------- */}
 
         <div className="overflow-y-auto p-6">
-          {/* Resume */}
-          <Card className="mb-6 border-gray-300 bg-gray-50 shadow-sm shadow-black">
+          {/* Order Summary */}
+          <Card className="mb-6 border-gray-300 shadow-sm shadow-black">
             <CardContent className="p-4">
               <h3 className="mb-2 flex items-center gap-2 text-md font-semibold text-gray-600">
-                <CheckIcon className="h-4 w-4 text-green-600" />
+                <CheckIcon className="h-5 w-5 text-green-600" />
                 Resumo do pedido
               </h3>
 
               <div className="space-y-2">
                 <div className="text-sm text-gray-600 font-semibold">
-                  {products.length} {products.length === 1 ? "item" : "itens"}{" "}
+                  {products.length} {products.length === 1 ? "- Item" : "- Itens"}{" "}
                   no carrinho
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="font-semibold italic text-lg text-gray-600">Total:</span>
-                  <span className="font-semibold italic text-lg text-gray-600">
+                  <span className="font-bold text-xl text-gray-600">Total:</span>
+                  <span className="font-bold text-xl text-gray-600">
                     R$ {total.toFixed(2).replace(".", ",")}
                   </span>
                 </div>
@@ -159,7 +160,7 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-semibold text-gray-600">
+                    <FormLabel className="font-bold text-gray-600">
                       Seu nome
                     </FormLabel>
                     <FormControl>
@@ -179,7 +180,7 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
                 name="cpf"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-semibold text-gray-600">
+                    <FormLabel className="font-bold text-gray-600">
                       Seu CPF
                     </FormLabel>
                     <FormControl>
@@ -198,7 +199,7 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
 
               <Separator className="my-4 bg-gray-300" />
 
-              <div className="rounded-lg border border-gray-300 bg-gray-50 p-4 text-sm text-gray-600 font-medium shadow-sm shadow-black">
+              <div className="rounded-lg border border-gray-300 p-4 text-sm text-gray-600 font-semibold shadow-sm shadow-black">
                 <p>
                   Ao finalizar, você será redirecionado para o Stripe para
                   realizar o pagamento com segurança.
@@ -210,11 +211,11 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  className="rounded-lg border-none font-semibold text-md italic shadow-sm shadow-black transition-all bg-red-500 text-white hover:bg-red-800 active:scale-90"
+                  className="rounded-lg border-none font-semibold text-md italic shadow-sm shadow-black transition-all bg-red-600 text-white hover:bg-red-900 active:scale-90"
                 >
                   {isLoading ? (
                     <span className="flex items-center gap-2">
-                      <Loader2Icon className="h-4 w-4 animate-spin" />
+                      <Loader2Icon className="h-5 w-5 animate-spin" />
                       Processando...
                     </span>
                   ) : (
@@ -224,7 +225,7 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
 
                 <DrawerClose asChild>
                   <Button
-                    className="rounded-lg border text-md font-semibold border-gray-300 text-black hover:bg-gray-300 hover:text-gray-900 bg-transparent transition-all active:scale-90 italic shadow-sm shadow-black hover:border-none"
+                    className="rounded-lg border text-md font-semibold border-gray-300 text-gray-600 hover:bg-gray-300 hover:text-gray-900 bg-transparent transition-all active:scale-90 italic shadow-sm shadow-black hover:border-none"
                   >
                     Cancelar
                   </Button>

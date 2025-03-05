@@ -136,14 +136,14 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
 
       {/* Cart Summary Bar */}
       {products.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 flex w-full items-center justify-between border-t bg-white px-5 py-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+        <div className="fixed bottom-0 left-0 right-0 flex w-full items-center justify-between bg-white px-5 py-4">
           <div>
-            <p className="text-xs font-medium text-muted-foreground">
+            <p className="text-xs font-semibold text-black">
               Total dos pedidos
             </p>
-            <p className="text-base font-semibold text-slate-900">
+            <p className="text-md font-bold text-black">
               {formatCurrency(total)}
-              <span className="ml-1 text-xs font-normal text-muted-foreground">
+              <span className="ml-1 text-xs font-bold text-black">
                 - {totalQuantity} {totalQuantity > 1 ? "itens" : "item"}
               </span>
             </p>
@@ -151,7 +151,7 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
 
           <Button
             onClick={toggleCart}
-            className="bg-red-500 px-6 font-semibold italic text-white shadow-sm shadow-black transition-all hover:bg-red-800 active:scale-90"
+            className="bg-red-600 px-6 font-semibold italic text-white border-none shadow-sm shadow-black transition-all hover:bg-red-900 active:scale-90"
           >
             Ver sacola
           </Button>

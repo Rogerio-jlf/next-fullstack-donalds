@@ -27,16 +27,16 @@ const CartSheet = () => {
 
   return (
     <Sheet open={isOpen} onOpenChange={toggleCart}>
-      <SheetContent className="w-[90%] max-w-full border-l border-gray-300 p-0 font-Poppins sm:w-[450px]">
+      <SheetContent className="w-[90%] max-w-full border-l border-gray-300 p-0 font-Kodchasan sm:w-[450px]">
         <div className="flex h-full flex-col">
           {/* HEADER */}
           <SheetHeader className="border-b border-gray-300 px-6 py-5">
             <div className="flex items-center justify-between">
-              <SheetTitle className="flex items-center gap-2 text-xl font-bold text-gray-500">
+              <SheetTitle className="flex items-center gap-2 text-xl font-bold text-gray-600">
                 <ShoppingBagIcon size={20} />
                 Sacola
                 {itemCount > 0 && (
-                  <span className="ml-2 rounded-full bg-gray-300 px-2 py-1 text-sm text-gray-500 border-none">
+                  <span className="ml-2 rounded-full bg-gray-300 px-2 py-1 text-sm text-gray-600 border-none shadow-sm shadow-black font-bold">
                     {itemCount} {itemCount === 1 ? "item" : "itens"}
                   </span>
                 )}
@@ -78,24 +78,24 @@ const CartSheet = () => {
                 <CardContent className="p-4">
                   <div className="space-y-3">
                     <div className="flex justify-between text-sm">
-                      <p className="font-semibold text-gray-500">Subtotal</p>
-                      <p className="font-semibold text-gray-500">
+                      <p className="font-semibold text-gray-600">Subtotal</p>
+                      <p className="font-semibold text-gray-600">
                         {formatCurrency(total)}
                       </p>
                     </div>
 
                     <div className="flex justify-between text-sm">
-                      <p className="font-semibold text-gray-500">Entrega</p>
-                      <p className="font-semibold text-gray-500">Grátis</p>
+                      <p className="font-semibold text-gray-600">Entrega</p>
+                      <p className="font-semibold text-gray-600">Grátis</p>
                     </div>
 
                     <Separator className="bg-gray-300" />
 
                     <div className="flex justify-between pt-2">
-                      <p className="text-lg font-semibold italic text-gray-500">
+                      <p className="text-lg font-bold italic text-gray-600">
                         Total
                       </p>
-                      <p className="text-lg font-bold italic text-gray-500">
+                      <p className="text-lg font-bold italic text-gray-600">
                         {formatCurrency(total)}
                       </p>
                     </div>
@@ -106,7 +106,7 @@ const CartSheet = () => {
 
               {/* BUTTON FINALIZAR */}
               <Button
-                className="h-12 w-full rounded-lg bg-red-500 text-base font-semibold italic text-white shadow-sm shadow-black transition-all hover:bg-red-800 active:scale-90 border-none"
+                className="h-12 w-full rounded-lg bg-red-600 text-base font-semibold italic text-white shadow-sm shadow-black transition-all hover:bg-red-900 active:scale-90 border-none"
                 disabled={products.length === 0}
                 onClick={() => setFinishOrderDialogIsOpen(true)}
               >

@@ -59,10 +59,12 @@ const CpfForm = () => {
     router.back();
   };
 
+  // Rendering
   return (
     <Drawer open>
-      <DrawerContent className="max-h-[90vh] font-Poppins">
-        <DrawerHeader className="border-b border-gray-300 bg-gray-100 pb-6">
+      <DrawerContent className="max-h-[90vh] font-Kodchasan">
+        {/* Header */}
+        <DrawerHeader className="border-b border-gray-300 pb-6">
           <div className="mb-4 flex items-center justify-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-transparent shadow-sm shadow-black border-none">
               <UserIcon className="h-8 w-8 text-gray-600" />
@@ -71,18 +73,18 @@ const CpfForm = () => {
           <DrawerTitle className="text-center text-xl font-bold text-black">
             Visualizar Pedidos
           </DrawerTitle>
-          <DrawerDescription className="mt-2 text-center text-gray-600 font-medium">
+          <DrawerDescription className="mt-2 text-center text-gray-600 font-semibold">
             Insira seu CPF abaixo para visualizar seus pedidos.
           </DrawerDescription>
         </DrawerHeader>
         {/* ---------- */}
 
         <div className="px-6 py-8">
-          <Card className="mb-6 border-gray-200 shadow-sm shadow-black">
+          <Card className="mb-6 border-gray-300 shadow-sm shadow-black">
             <CardContent className="p-4">
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <LockIcon className="h-5 w-5" />
-                <p className="font-medium text-gray-600 text-md">
+                <p className="font-semibold text-gray-600 text-sm">
                   Seus dados estão protegidos e são usados apenas para
                   identificar seus pedidos.
                 </p>
@@ -98,7 +100,7 @@ const CpfForm = () => {
                 name="cpf"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-semibold text-gray-600">
+                    <FormLabel className="font-bold text-gray-600">
                       Seu CPF
                     </FormLabel>
                     <FormControl>
@@ -116,7 +118,7 @@ const CpfForm = () => {
                       </div>
                     </FormControl>
                     <FormMessage className="mt-2 text-red-500" />
-                    <p className="mt-2 text-xs text-gray-600 font-medium">
+                    <p className="mt-2 text-xs text-gray-600 font-semibold">
                       Utilize o mesmo CPF fornecido no momento da compra.
                     </p>
                   </FormItem>
@@ -126,20 +128,20 @@ const CpfForm = () => {
               <DrawerFooter className="px-0 pt-2">
                 <Button
                   type="submit"
-                  className="w-full text-md border-none rounded-lg italic font-semibold shadow-sm shadow-black transition-all hover:bg-red-800 bg-red-500 active:scale-90 text-white"
+                  className="w-full text-md border-none rounded-lg italic font-semibold shadow-sm shadow-black transition-all hover:bg-red-900 bg-red-600 active:scale-90 text-white"
                 >
                   Visualizar meus pedidos
                 </Button>
                 <DrawerClose asChild>
                   <Button
                     onClick={handleCancel}
-                    className="w-full rounded-lg border border-gray-300 text-black hover:bg-gray-300 bg-transparent transition-all active:scale-90 text-md font-semibold italic shadow-sm shadow-black hover:border-none"
+                    className="w-full rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-300 bg-transparent transition-all active:scale-90 text-md font-semibold italic shadow-sm shadow-black hover:border-none"
                   >
                     Voltar
                   </Button>
                 </DrawerClose>
 
-                <p className="mt-4 text-center text-xs text-gray-600 font-medium">
+                <p className="mt-4 text-center text-xs text-gray-600 font-semibold">
                   Você será redirecionado para a página de seus pedidos após a
                   confirmação.
                 </p>
